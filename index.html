@@ -65,17 +65,25 @@
 
         /* 2. Cuenta Regresiva */
         .countdown-container {
-            top: 57.2%;
+            top: 58.6%;
         }
 
         .countdown {
-            font-size: 3.2em;
+font-size: 3.2em;
             font-weight: bold;
-            background: rgba(255, 255, 255, A3F7F3);
-            color: #000;
-            padding: 25px 15px;
-            border-radius: 15px;
+            color: #001F5B; /* CAMBIO: Azul Navy */
+            /* REMOVIDO: El fondo blanco se aplicará solo a los números */
+            padding: 5px 0; /* Ajuste para compensar el padding de digit-box */
             display: inline-block;
+        }
+
+        /* NUEVO ESTILO: Contenedor de cada número sombreado */
+        .digit-box {
+            background: rgba(255, 255, 255, 0.9); /* Fondo Blanco semi-transparente */
+            padding: 10px 10px; /* Sombreado alrededor del número */
+            border-radius: 10px;
+            margin: 0 5px; /* Espacio entre las cajas de números */
+            /* El color del texto ya viene de .countdown */
         }
         
         /* 3. Botones */
@@ -151,7 +159,7 @@
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            countdown.innerHTML = `Faltan: ${days} días ${hours.toString().padStart(2,'0')}h ${minutes.toString().padStart(2,'0')}m ${seconds.toString().padStart(2,'0')}s`;
+            countdown.innerHTML = `${days}-  ${hours.toString().padStart(2,'0')} -  ${minutes.toString().padStart(2,'0')} -  ${seconds.toString().padStart(2,'0')}`;
         }, 1000);
     </script>
 </body>
