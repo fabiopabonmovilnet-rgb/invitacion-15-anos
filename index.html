@@ -48,44 +48,64 @@
             text-align: center;
         }
 
-        /* 1. Música (MODIFICADO: Aumento de altura y posición) */
+        /* 1. Música */
         .audio-container {
-            top: 26%; /* Ajuste de posición: ligeramente más arriba */
+            top: 26%; 
             width: 65%;
             max-width: 10000000px;
         }
         audio {
             width: 100%;
-            /* ESTILO CLAVE MODIFICADO */
-            height: 73px; /* AUMENTADO: Hace que el control de audio sea más alto */
-            /* FIN DEL ESTILO CLAVE MODIFICADO */
+            height: 73px;
             background: rgba(980, 280, 280, 6.9);
             border-radius: 10000px;
         }
 
-        /* 2. Cuenta Regresiva */
+        /* 2. Cuenta Regresiva - CONTENEDOR PRINCIPAL */
         .countdown-container {
-            top: 58.5%;
+            top: 58.4%;
         }
 
+        /* Contenedor general: Usa flexbox para alinear las CAJAS individualmente */
         .countdown {
-font-size: 2.5em;
+            font-size: 2.5em;
             font-weight: bold;
-            color: #001F5B; /* CAMBIO: Azul Navy */
-            /* REMOVIDO: El fondo blanco se aplicará solo a los números */
-            padding: 5px 0; /* Ajuste para compensar el padding de digit-box */
-            display: inline-block;
+            color: #001F5B; /* Azul Navy */
+            display: flex; /* IMPORTANTE: Alinea los digit-box */
+            justify-content: center; /* Centrar todas las cajas */
+            gap: 15px; /* Espacio entre las cajas */
+            padding: 5px 0;
         }
 
-        /* NUEVO ESTILO: Contenedor de cada número sombreado */
+        /* ESTILO CLAVE: Contenedor de cada número (la caja sombreada) */
         .digit-box {
             background: rgba(255, 255, 255, 0.9); /* Fondo Blanco semi-transparente */
-            padding: 10px 10px; /* Sombreado alrededor del número */
+            padding: 10px 15px; /* Sombreado y espacio interno */
             border-radius: 10px;
-            margin: 0 5px; /* Espacio entre las cajas de números */
-            /* El color del texto ya viene de .countdown */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para que destaque */
+            
+            /* ORGANIZACIÓN INTERNA: Apila el número y la etiqueta */
+            display: flex;
+            flex-direction: column; 
+            align-items: center; 
+            line-height: 1.2; 
         }
-        
+
+        /* Estilo para los números (para el color del texto) */
+        .digit-box .number {
+            font-size: 1em; /* Mantiene el tamaño del .countdown */
+        }
+
+        /* Estilo para las etiquetas (Días, Horas, etc.) */
+        .digit-box .label {
+            font-size: 0.35em; /* Más pequeño que el número */
+            font-weight: normal;
+            text-transform: uppercase;
+            color: #001F5B; 
+            margin-top: 5px;
+        }
+
+
         /* 3. Botones */
         .buttons {
             top: 70%;
@@ -132,10 +152,10 @@ font-size: 2.5em;
             <div class="overlay buttons">
                 <a class="button" href="https://maps.app.goo.gl/ZDzH5HTWEJ3NYH8f9" target="_blank">Ubicación</a>
 
-            </div>         
-	<div class="overlay buttons2">
+            </div>		
+            <div class="overlay buttons2">
 
-                <a class="button" href="https://wa.me/584247066739" target="_blank">Confirmar Asistencia</a>
+                <a class="button" href="https://wa.me/584165023807" target="_blank">Confirmar Asistencia</a>
             </div>
         </div>
     </div>
@@ -158,8 +178,33 @@ font-size: 2.5em;
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            countdown.innerHTML = ` ${days} ${hours.toString().padStart(2,'0')} ${minutes.toString().padStart(2,'0')} ${seconds.toString().padStart(2,'0')}`;
+            
+            // 🔑 CÓDIGO CLAVE MODIFICADO: Ahora genera el HTML con las clases CSS
+            countdown.innerHTML = 
+                // DÍAS
+                '<div class="digit-box">' +
+                    '<span class="number">' + days + '</span>' +
+                    '<span class="label"></span>' +
+                '</div>' +
+                
+                // HORAS
+                '<div class="digit-box">' +
+                    '<span class="number">' + hours.toString().padStart(2,'0') + '</span>' +
+                    '<span class="label"></span>' +
+                '</div>' +
+                
+                // MINUTOS
+                '<div class="digit-box">' +
+                    '<span class="number">' + minutes.toString().padStart(2,'0') + '</span>' +
+                    '<span class="label"></span>' +
+                '</div>' +
+                
+                // SEGUNDOS
+                '<div class="digit-box">' +
+                    '<span class="number">' + seconds.toString().padStart(2,'0') + '</span>' +
+                    '<span class="label"></span>' +
+                '</div>';
+            // 🔑 FIN DEL CÓDIGO CLAVE MODIFICADO
         }, 1000);
     </script>
 </body>
