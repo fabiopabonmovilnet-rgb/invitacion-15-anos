@@ -63,28 +63,28 @@
 
         /* 2. Cuenta Regresiva - CONTENEDOR PRINCIPAL */
         .countdown-container {
-            top: 58.6%;
+            top: 58%;
         }
 
         /* ---------------------------------------------------- */
-        /* ✅ AJUSTE DE TAMAÑO BASE (Menos grande que antes) */
+        /* ✅ AJUSTE DE TAMAÑO BASE Y ESPACIO AUMENTADO */
         /* ---------------------------------------------------- */
         .countdown {
             /* Fuente más pequeña para que quepa mejor en pantalla */
-            font-size: 1.5em; 
+            font-size: 1.3em; 
             font-weight: bold;
             color: #001F5B; 
             display: flex; 
             justify-content: center;
-            /* Menos espacio entre las cajas */
-            gap: 10px; 
+            /* CAMBIO CLAVE: Aumentado el espacio entre recuadros a 20px (espacio y medio) */
+            gap: 20px; 
             padding: 5px 0;
         }
 
         /* ESTILO CLAVE: Contenedor de cada número (la caja sombreada) */
         .digit-box {
             background: rgba(255, 255, 255, 0.9); /* Fondo Blanco semi-transparente */
-            /* Relleno reducido para achicar el recuadro */
+            /* Relleno para achicar el recuadro */
             padding: 8px 10px; 
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
@@ -96,16 +96,17 @@
 
         /* Estilo para los números (para el color del texto) */
         .digit-box .number {
-            font-size: 1.5em; /* Mantiene el tamaño base del .countdown */
+            font-size: 1em; /* Utiliza el tamaño base del .countdown */
         }
 
         /* Estilo para las etiquetas (Días, Horas, etc.) */
         .digit-box .label {
-            font-size: 1.5em; /* Más pequeño que el número */
+            /* Corregido el font-size para que sea relativo al .countdown */
+            font-size: 0.3em; 
             font-weight: normal;
             text-transform: uppercase;
             color: #001F5B; 
-            margin-top: 3px; /* Menos margen arriba */
+            margin-top: 3px; 
         }
         
         /* ---------------------------------------------------- */
@@ -113,7 +114,7 @@
         /* ---------------------------------------------------- */
         @media (max-width: 400px) {
             .countdown {
-                font-size: 1.3em; /* Tamaño aún más pequeño en móviles */
+                /* Reducimos el espacio a 8px para que quepan bien en pantallas muy estrechas */
                 gap: 8px; 
             }
         
@@ -203,30 +204,30 @@
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
-            // 🔑 CÓDIGO CLAVE MODIFICADO (para que incluya la estructura HTML)
+            // 🔑 CÓDIGO CLAVE MODIFICADO: Añadimos las etiquetas de texto
             countdown.innerHTML = 
                 // DÍAS
                 '<div class="digit-box">' +
                     '<span class="number">' + days + '</span>' +
-                    '<span class="label"/span>' +
+                    '<span class="label">Días</span>' +
                 '</div>' +
                 
                 // HORAS
                 '<div class="digit-box">' +
                     '<span class="number">' + hours.toString().padStart(2,'0') + '</span>' +
-                    '<span class="label"/span>' +
+                    '<span class="label">Hrs</span>' +
                 '</div>' +
                 
                 // MINUTOS
                 '<div class="digit-box">' +
                     '<span class="number">' + minutes.toString().padStart(2,'0') + '</span>' +
-                    '<span class="label"/span>' +
+                    '<span class="label">Min</span>' +
                 '</div>' +
                 
                 // SEGUNDOS
                 '<div class="digit-box">' +
                     '<span class="number">' + seconds.toString().padStart(2,'0') + '</span>' +
-                    '<span class="label"/span>' +
+                    '<span class="label">Seg</span>' +
                 '</div>';
             // 🔑 FIN DEL CÓDIGO CLAVE MODIFICADO
         }, 1000);
