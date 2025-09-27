@@ -66,44 +66,68 @@
             top: 58.4%;
         }
 
-        /* Contenedor general: Usa flexbox para alinear las CAJAS individualmente */
+        /* ---------------------------------------------------- */
+        /* ✅ AJUSTE DE TAMAÑO BASE (Menos grande que antes) */
+        /* ---------------------------------------------------- */
         .countdown {
-            font-size: 2.5em;
+            /* Fuente más pequeña para que quepa mejor en pantalla */
+            font-size: 1.8em; 
             font-weight: bold;
-            color: #001F5B; /* Azul Navy */
-            display: flex; /* IMPORTANTE: Alinea los digit-box */
-            justify-content: center; /* Centrar todas las cajas */
-            gap: 15px; /* Espacio entre las cajas */
+            color: #001F5B; 
+            display: flex; 
+            justify-content: center;
+            /* Menos espacio entre las cajas */
+            gap: 10px; 
             padding: 5px 0;
         }
 
         /* ESTILO CLAVE: Contenedor de cada número (la caja sombreada) */
         .digit-box {
             background: rgba(255, 255, 255, 0.9); /* Fondo Blanco semi-transparente */
-            padding: 10px 15px; /* Sombreado y espacio interno */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para que destaque */
-            
-            /* ORGANIZACIÓN INTERNA: Apila el número y la etiqueta */
+            /* Relleno reducido para achicar el recuadro */
+            padding: 8px 10px; 
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
             display: flex;
             flex-direction: column; 
             align-items: center; 
-            line-height: 1.2; 
+            line-height: 1.1; /* Más compacto verticalmente */
         }
 
         /* Estilo para los números (para el color del texto) */
         .digit-box .number {
-            font-size: 1em; /* Mantiene el tamaño del .countdown */
+            font-size: 1em; /* Mantiene el tamaño base del .countdown */
         }
 
         /* Estilo para las etiquetas (Días, Horas, etc.) */
         .digit-box .label {
-            font-size: 0.35em; /* Más pequeño que el número */
+            font-size: 0.3em; /* Más pequeño que el número */
             font-weight: normal;
             text-transform: uppercase;
             color: #001F5B; 
-            margin-top: 5px;
+            margin-top: 3px; /* Menos margen arriba */
         }
+        
+        /* ---------------------------------------------------- */
+        /* ✅ MEDIA QUERY: Ajuste ESPECIAL para Teléfonos */
+        /* ---------------------------------------------------- */
+        @media (max-width: 400px) {
+            .countdown {
+                font-size: 1.3em; /* Tamaño aún más pequeño en móviles */
+                gap: 8px; 
+            }
+        
+            .digit-box {
+                padding: 5px 8px; /* Relleno mínimo */
+            }
+        
+            .digit-box .label {
+                font-size: 0.25em;
+                margin-top: 2px;
+            }
+        }
+        
+        /* ---------------------------------------------------- */
 
 
         /* 3. Botones */
@@ -179,30 +203,30 @@
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
-            // 🔑 CÓDIGO CLAVE MODIFICADO: Ahora genera el HTML con las clases CSS
+            // 🔑 CÓDIGO CLAVE MODIFICADO (para que incluya la estructura HTML)
             countdown.innerHTML = 
                 // DÍAS
                 '<div class="digit-box">' +
                     '<span class="number">' + days + '</span>' +
-                    '<span class="label"></span>' +
+                    '<span class="label"/span>' +
                 '</div>' +
                 
                 // HORAS
                 '<div class="digit-box">' +
                     '<span class="number">' + hours.toString().padStart(2,'0') + '</span>' +
-                    '<span class="label"></span>' +
+                    '<span class="label"/span>' +
                 '</div>' +
                 
                 // MINUTOS
                 '<div class="digit-box">' +
                     '<span class="number">' + minutes.toString().padStart(2,'0') + '</span>' +
-                    '<span class="label"></span>' +
+                    '<span class="label"/span>' +
                 '</div>' +
                 
                 // SEGUNDOS
                 '<div class="digit-box">' +
                     '<span class="number">' + seconds.toString().padStart(2,'0') + '</span>' +
-                    '<span class="label"></span>' +
+                    '<span class="label"/span>' +
                 '</div>';
             // 🔑 FIN DEL CÓDIGO CLAVE MODIFICADO
         }, 1000);
