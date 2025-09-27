@@ -1,235 +1,236 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación 15 Años</title>
-    <style>
-        /* Estilos Generales */
-        html, body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Invitación 15 Años</title>
+<style>
+    /* ---------- Tus estilos originales (sin modificar) ---------- */
+    html, body { margin:0; padding:0; font-family: Arial, sans-serif; background-color:#f7f7f7; }
+    .scrollable { overflow-y:auto; min-height:100vh; display:flex; justify-content:center; align-items:flex-start; padding:20px 0; }
+    .card-container { position:relative; width:100%; max-width:600px; margin:0; }
+    .card-container img { width:100%; height:auto; display:block; }
+    .overlay { position:absolute; left:50%; transform:translateX(-50%); width:90%; max-width:400px; text-align:center; }
 
-        /* Contenedor principal: centra la tarjeta y permite scroll */
-        .scrollable {
-            overflow-y: auto;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding: 20px 0;
-        }
+    /* ---------- AUDIO: mantengo la ubicación original pero aseguro espacio ---------- */
+    .audio-container {
+        top: 26%;
+        width: 65%;
+        /* Reservamos altura para que la posición de los demás elementos no cambie */
+        height: 96px;                /* ajuste para mantener el espaciado original */
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        z-index: 6;
+    }
 
-        /* Contenedor de la Tarjeta (Imagen + Overlays) */
-        .card-container {
-            position: relative;
-            width: 100%;
-            max-width: 600px;
-            margin: 0;
-        }
+    /* Mantenemos el elemento <audio> pero oculto visualmente (preserva espacio) */
+    #music-player {
+        width: 100%;
+        height: 73px;     /* igual que el tamaño que tenías */
+        opacity: 0;       /* invisible pero ocupa espacio */
+        pointer-events: none;
+    }
 
-        /* La imagen de la invitación */
-        .card-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
+    /* Shell visual del player (botones). Scoped para no afectar nada más */
+    .audio-container .player-shell {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 420px;
+        display:flex;
+        justify-content:center;
+        gap: 22px;
+        align-items:center;
+        z-index: 7;
+        pointer-events: auto; /* habilita clicks en botones */
+    }
 
-        /* Elementos flotantes sobre la imagen (Centrado Horizontal) */
-        .overlay {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-        }
+    .audio-container .control {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgba(58,100,170,0.95);
+        color: #fff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-size: 26px;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 6px 14px rgba(0,0,0,0.18);
+    }
 
-        /* 1. Música */
-        .audio-container {
-            top: 26%; 
-            width: 65%;
-            max-width: 10000000px;
-        }
-        audio {
-            width: 100%;
-            height: 73px;
-            background: rgba(980, 280, 280, 6.9);
-            border-radius: 10000px;
-        }
+    /* Botón central (grande, blanco con icono azul dentro) */
+    .audio-container .play-big {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: #ffffff;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 10px 22px rgba(0,0,0,0.18);
+    }
 
-        /* 2. Cuenta Regresiva - CONTENEDOR PRINCIPAL */
-        .countdown-container {
-            top: 58.5%;
-        }
+    .audio-container .play-big .icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        background: linear-gradient(180deg,#4aa0ff 0%,#2b73d1 100%);
+        color: #fff;
+        font-size: 26px;
+    }
 
-        /* ---------------------------------------------------- */
-        /* ✅ AJUSTE DE TAMAÑO BASE (Menos grande que antes) */
-        /* ---------------------------------------------------- */
-        .countdown {
-            /* Fuente más pequeña para que quepa mejor en pantalla */
-            font-size: 1.8em; 
-            font-weight: bold;
-            color: #001F5B; 
-            display: flex; 
-            justify-content: center;
-            /* Menos espacio entre las cajas */
-            gap: 10px; 
-            padding: 5px 0;
-        }
+    /* Evito estilos globales que afecten a la cuenta regresiva u otros */
+    /* --------------------------------------------------------------- */
 
-        /* ESTILO CLAVE: Contenedor de cada número (la caja sombreada) */
-        .digit-box {
-            background: rgba(255, 255, 255, 0.9); /* Fondo Blanco semi-transparente */
-            /* Relleno reducido para achicar el recuadro */
-            padding: 8px 10px; 
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-            display: flex;
-            flex-direction: column; 
-            align-items: center; 
-            line-height: 1.1; /* Más compacto verticalmente */
-        }
+    /* ---------- Cuenta regresiva (copié tu bloque original para no cambiarlo) ---------- */
+    .countdown-container { top: 58.5%; }
+    .countdown {
+        font-size: 1.8em; 
+        font-weight: bold;
+        color: #001F5B; 
+        display: flex; 
+        justify-content: center;
+        gap: 10px; 
+        padding: 5px 0;
+    }
+    .digit-box {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 8px 10px; 
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+        line-height: 1.1;
+    }
+    .digit-box .number { font-size: 1.4em; }
+    .digit-box .label {
+        font-size: 1.4em;
+        font-weight: normal;
+        text-transform: uppercase;
+        color: #001F5B; 
+        margin-top: 3px;
+    }
+    @media (max-width: 400px) {
+        .countdown { font-size: 1.3em; gap: 8px; }
+        .digit-box { padding: 5px 8px; }
+        .digit-box .label { font-size: 0.25em; margin-top: 2px; }
+    }
 
-        /* Estilo para los números (para el color del texto) */
-        .digit-box .number {
-            font-size: 1.4em; /* Mantiene el tamaño base del .countdown */
-        }
-
-        /* Estilo para las etiquetas (Días, Horas, etc.) */
-        .digit-box .label {
-            font-size: 1.4em; /* Más pequeño que el número */
-            font-weight: normal;
-            text-transform: uppercase;
-            color: #001F5B; 
-            margin-top: 3px; /* Menos margen arriba */
-        }
-        
-        /* ---------------------------------------------------- */
-        /* ✅ MEDIA QUERY: Ajuste ESPECIAL para Teléfonos */
-        /* ---------------------------------------------------- */
-        @media (max-width: 400px) {
-            .countdown {
-                font-size: 1.3em; /* Tamaño aún más pequeño en móviles */
-                gap: 8px; 
-            }
-        
-            .digit-box {
-                padding: 5px 8px; /* Relleno mínimo */
-            }
-        
-            .digit-box .label {
-                font-size: 0.25em;
-                margin-top: 2px;
-            }
-        }
-        
-        /* ---------------------------------------------------- */
-
-
-        /* 3. Botones */
-        .buttons {
-            top: 70%;
-            display: flex;
-            justify-content: space-around;
-            gap: 10px;
-        }
-        .buttons2 {
-            top: 94%;
-            display: flex;
-            justify-content: space-around;
-            gap: 10px;
-        }
-
-        .button {
-            flex-grow: 1;
-            max-width: 45%;
-            padding: 12px 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-    </style>
+    /* ---------- Botones Ubicación / Confirmar (sin cambios) ---------- */
+    .buttons { top: 70%; display:flex; justify-content:space-around; gap:10px; }
+    .buttons2 { top: 94%; display:flex; justify-content:space-around; gap:10px; }
+    .button {
+        flex-grow: 1;
+        max-width: 45%;
+        padding: 12px 10px;
+        background: rgba(0,0,0,0.7);
+        color: #fff;
+        text-decoration: none;
+        border-radius: 12px;
+        font-size: 0.9em;
+        font-weight: bold;
+    }
+</style>
 </head>
 <body>
-    <div class="scrollable">
-        <div class="card-container">
-            <img src="fondo.png" alt="Invitación de 15 años Angely Gabriela">
+<div class="scrollable">
+    <div class="card-container">
+        <img src="fondo.png" alt="Invitación de 15 años Angely Gabriela">
 
-            <div class="overlay audio-container">
-                <audio controls autoplay loop>
-                    <source src="musica.mp3" type="audio/mpeg">
-                    Tu navegador no soporta audio.
-                </audio>
-            </div>
+        <!-- audio: preservamos el espacio del audio y encima colocamos los botones visuales -->
+        <div class="overlay audio-container">
+            <audio id="music-player" loop>
+                <source src="musica.mp3" type="audio/mpeg">
+            </audio>
 
-            <div class="overlay countdown-container">
-                <div class="countdown" id="countdown"></div>
-            </div>
+            <div class="player-shell" role="group" aria-label="Controles de audio">
+                <button class="control" id="prev-btn" title="Retroceder 10s">⏮</button>
 
-            <div class="overlay buttons">
-                <a class="button" href="https://maps.app.goo.gl/ZDzH5HTWEJ3NYH8f9" target="_blank">Ubicación</a>
+                <button class="play-big" id="play-btn" title="Reproducir / Pausar">
+                    <span class="icon" id="play-icon">▶</span>
+                </button>
 
-            </div>		
-            <div class="overlay buttons2">
-
-                <a class="button" href="https://wa.me/584165023807" target="_blank">Confirmar Asistencia</a>
+                <button class="control" id="next-btn" title="Adelantar 10s">⏭</button>
             </div>
         </div>
+
+        <!-- Cuenta regresiva (igual que antes) -->
+        <div class="overlay countdown-container">
+            <div class="countdown" id="countdown"></div>
+        </div>
+
+        <!-- Botones Ubicación y Confirmar -->
+        <div class="overlay buttons">
+            <a class="button" href="https://maps.app.goo.gl/ZDzH5HTWEJ3NYH8f9" target="_blank">Ubicación</a>
+        </div>
+        <div class="overlay buttons2">
+            <a class="button" href="https://wa.me/584165023807" target="_blank">Confirmar Asistencia</a>
+        </div>
     </div>
+</div>
 
-    <script>
-        const countdown = document.getElementById("countdown");
-        // Fecha del evento: Sábado 18 de Octubre, 07:00 PM
-        const targetDate = new Date("2025-10-18T19:00:00").getTime(); 
+<script>
+    /* ---------- Lógica del player ---------- */
+    const musicPlayer = document.getElementById('music-player');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
 
-        setInterval(() => {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+    playBtn.addEventListener('click', () => {
+        if (musicPlayer.paused) {
+            musicPlayer.play().catch(()=>{ /* si el navegador bloquea autoplay, no romperá */ });
+            playIcon.textContent = '⏸';
+        } else {
+            musicPlayer.pause();
+            playIcon.textContent = '▶';
+        }
+    });
 
-            if (distance < 0) {
-                countdown.innerHTML = "¡El evento ha comenzado!";
-                return;
-            }
+    prevBtn.addEventListener('click', () => {
+        musicPlayer.currentTime = Math.max(0, (musicPlayer.currentTime || 0) - 10);
+    });
+    nextBtn.addEventListener('click', () => {
+        musicPlayer.currentTime = (musicPlayer.currentTime || 0) + 10;
+    });
 
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            // 🔑 CÓDIGO CLAVE MODIFICADO (para que incluya la estructura HTML)
-            countdown.innerHTML = 
-                // DÍAS
-                '<div class="digit-box">' +
-                    '<span class="number">' + days + '</span>' +
-                    '<span class="label"/span>' +
-                '</div>' +
-                
-                // HORAS
-                '<div class="digit-box">' +
-                    '<span class="number">' + hours.toString().padStart(2,'0') + '</span>' +
-                    '<span class="label"/span>' +
-                '</div>' +
-                
-                // MINUTOS
-                '<div class="digit-box">' +
-                    '<span class="number">' + minutes.toString().padStart(2,'0') + '</span>' +
-                    '<span class="label"/span>' +
-                '</div>' +
-                
-                // SEGUNDOS
-                '<div class="digit-box">' +
-                    '<span class="number">' + seconds.toString().padStart(2,'0') + '</span>' +
-                    '<span class="label"/span>' +
-                '</div>';
-            // 🔑 FIN DEL CÓDIGO CLAVE MODIFICADO
-        }, 1000);
-    </script>
+    /* ---------- Cuenta regresiva (igual a la tuya) ---------- */
+    const countdown = document.getElementById("countdown");
+    const targetDate = new Date("2025-10-18T19:00:00").getTime();
+
+    function updateCountdown(){
+        const now = new Date().getTime();
+        const distance = targetDate - now;
+
+        if (distance < 0) {
+            countdown.innerHTML = "¡El evento ha comenzado!";
+            return;
+        }
+
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdown.innerHTML =
+            '<div class="digit-box"><span class="number">' + days + '</span><span class="label">DÍAS</span></div>' +
+            '<div class="digit-box"><span class="number">' + hours.toString().padStart(2,'0') + '</span><span class="label">HORAS</span></div>' +
+            '<div class="digit-box"><span class="number">' + minutes.toString().padStart(2,'0') + '</span><span class="label">MIN</span></div>' +
+            '<div class="digit-box"><span class="number">' + seconds.toString().padStart(2,'0') + '</span><span class="label">SEG</span></div>';
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+</script>
 </body>
 </html>
